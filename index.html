@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Valentina ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    min-height: 100vh;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    overflow: hidden;
+    padding: 20px;
+}
+
+/* Responsive Text */
+h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: white;
+}
+
+p {
+    font-size: clamp(1rem, 3vw, 1.3rem);
+    color: white;
+}
+
+/* Buttons */
+button {
+    margin: 12px;
+    padding: 14px 28px;
+    font-size: clamp(1rem, 2.5vw, 1.2rem);
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#accept {
+    background: #4CAF50;
+    color: white;
+}
+
+#reject {
+    background: #ff4d4d;
+    color: white;
+    position: fixed;
+}
+
+/* Video Section */
+#showreelSection {
+    display: none;
+    width: 100%;
+    max-width: 800px;
+}
+
+video {
+    width: 100%;
+    border-radius: 15px;
+    margin-top: 20px;
+}
+
+/* Floating Hearts */
+.heart {
+    position: fixed;
+    color: red;
+    font-size: 22px;
+    animation: float 4s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(100vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+    button {
+        width: 70%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<h1>Valentina ❤️</h1>
+<p>Will you accept my proposal?</p>
+
+<button id="accept">YES 💍</button>
+<button id="reject">NO 🙈</button>
+
+<div id="showreelSection">
+    <h2>Thank you for accepting ❤️</h2>
+    <p>You just made my world brighter.</p>
+
+    <video controls>
+        <source src="showreel.mp4" type="video/mp4">
+    </video>
+</div>
+
+<audio id="music" loop>
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const rejectBtn = document.getElementById("reject");
+const acceptBtn = document.getElementById("accept");
+const showreel = document.getElementById("showreelSection");
+const music = document.getElementById("music");
+
+let yesClicks = 0;
+
+/* 25 messages */
+const annoyingMessages = [
+"Are you sure? 😏","Think again 🤨","Still clicking? 👀","You really mean YES? 💭",
+"Loading love... 5% ❤️","Loading love... 10% ❤️","Loading love... 15% ❤️",
+"Loading love... 20% ❤️","Okay but seriously? 😶","This is your final chance 🙃",
+"Love loading... 30% ❤️","Love loading... 35% ❤️","Love loading... 40% ❤️",
+"Love loading... 45% ❤️","Love loading... 50% ❤️","You're very persistent 😌",
+"Almost there... maybe 😜","Love loading... 60% ❤️","Love loading... 70% ❤️",
+"Love loading... 80% ❤️","No turning back now 😈","You sure it's me? 😳",
+"Last warning ⚠️","FINAL confirmation 💍","Okay okay... one more click 😭"
+];
+
+/* Safe Random Position */
+function randomPosition(element) {
+    const maxX = window.innerWidth - element.offsetWidth;
+    const maxY = window.innerHeight - element.offsetHeight;
+
+    element.style.left = Math.random() * maxX + "px";
+    element.style.top = Math.random() * maxY + "px";
+}
+
+/* Reject Button Escape */
+randomPosition(rejectBtn);
+
+rejectBtn.addEventListener("mouseover", () => randomPosition(rejectBtn));
+rejectBtn.addEventListener("touchstart", () => randomPosition(rejectBtn));
+
+/* Floating Hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * 100 + "vw";
+
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+}
+
+/* Confetti */
+function confettiExplosion() {
+    for(let i=0;i<100;i++){
+        const confetti = document.createElement("div");
+        confetti.innerText = "💖";
+        confetti.style.position="fixed";
+        confetti.style.left=Math.random()*100+"vw";
+        confetti.style.top=Math.random()*100+"vh";
+        confetti.style.fontSize="20px";
+
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(),2000);
+    }
+}
+
+/* YES Click Logic */
+acceptBtn.addEventListener("click", () => {
+
+    music.play();
+    yesClicks++;
+
+    if (yesClicks <= 25) {
+        acceptBtn.innerText = annoyingMessages[yesClicks - 1];
+    }
+
+    if (yesClicks === 26) {
+        document.querySelector("h1").innerText = "She Said YES ❤️";
+        document.querySelector("p").style.display = "none";
+        acceptBtn.style.display = "none";
+        rejectBtn.style.display = "none";
+
+        showreel.style.display = "block";
+
+        confettiExplosion();
+        setInterval(createHeart, 300);
+    }
+});
+
+/* YES Button Chase (Mobile + Desktop) */
+function moveAccept(x, y) {
+    acceptBtn.style.position = "fixed";
+    acceptBtn.style.left = x + "px";
+    acceptBtn.style.top = y + "px";
+}
+
+document.addEventListener("mousemove", (e) => {
+    if(yesClicks >= 5 && yesClicks <= 15){
+        moveAccept(e.clientX, e.clientY);
+    }
+});
+
+document.addEventListener("touchmove", (e) => {
+    if(yesClicks >= 5 && yesClicks <= 15){
+        moveAccept(e.touches[0].clientX, e.touches[0].clientY);
+    }
+});
+</script>
+
+</body>
+</html>
