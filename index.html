@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For Valentina ❤️</title>
+<title>For Tanisha ❤️</title>
 
 <style>
 body {
@@ -16,14 +16,22 @@ body {
     align-items: center;
     flex-direction: column;
     text-align: center;
-    overflow: hidden;
+    overflow-x: hidden;
     padding: 20px;
+    transition: 0.6s ease;
 }
 
-/* Responsive Text */
+/* When YES is confirmed */
+.second-page {
+    justify-content: flex-start;
+    padding-top: 120px; /* Controls how much down */
+}
+
+/* Text */
 h1 {
     font-size: clamp(2rem, 5vw, 3rem);
     color: white;
+    margin-bottom: 10px;
 }
 
 p {
@@ -58,12 +66,15 @@ button {
     display: none;
     width: 100%;
     max-width: 800px;
+    animation: fadeIn 1s ease forwards;
 }
 
 video {
-    width: 100%;
-    border-radius: 15px;
+    max-height: 80vh;
+    max-width: 100%;
+    border-radius: 20px;
     margin-top: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
 
 /* Floating Hearts */
@@ -79,7 +90,12 @@ video {
     100% { transform: translateY(-10vh); opacity: 0; }
 }
 
-/* Mobile Adjustments */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile */
 @media (max-width: 600px) {
     button {
         width: 70%;
@@ -90,18 +106,16 @@ video {
 
 <body>
 
-<h1>Valentina ❤️</h1>
-<p>Will you accept my proposal?</p>
+<h1>❤️ Tanisha ❤️</h1>
+<p id="question">Will you be my valentine? 💌</p>
 
 <button id="accept">YES 💍</button>
 <button id="reject">NO 🙈</button>
 
 <div id="showreelSection">
-    <h2>Thank you for accepting ❤️</h2>
-    <p>You just made my world brighter.</p>
-
+    <p> I Think we are soul-mates, aren’t we?.</p>
     <video controls>
-        <source src="showreel.mp4" type="video/mp4">
+        <source src="img-1051.mp4" type="video/mp4">
     </video>
 </div>
 
@@ -114,37 +128,33 @@ const rejectBtn = document.getElementById("reject");
 const acceptBtn = document.getElementById("accept");
 const showreel = document.getElementById("showreelSection");
 const music = document.getElementById("music");
+const question = document.getElementById("question");
 
 let yesClicks = 0;
 
-/* 25 messages */
-const annoyingMessages = [
-"Are you sure? 😏","Think again 🤨","Still clicking? 👀","You really mean YES? 💭",
-"Loading love... 5% ❤️","Loading love... 10% ❤️","Loading love... 15% ❤️",
-"Loading love... 20% ❤️","Okay but seriously? 😶","This is your final chance 🙃",
-"Love loading... 30% ❤️","Love loading... 35% ❤️","Love loading... 40% ❤️",
-"Love loading... 45% ❤️","Love loading... 50% ❤️","You're very persistent 😌",
-"Almost there... maybe 😜","Love loading... 60% ❤️","Love loading... 70% ❤️",
-"Love loading... 80% ❤️","No turning back now 😈","You sure it's me? 😳",
-"Last warning ⚠️","FINAL confirmation 💍","Okay okay... one more click 😭"
+const messages = [
+"Are you sure? 😏",
+"Think again 🤨",
+"Still clicking? 👀",
+"You really mean YES? 💭",
+"Okay okay... one more click 😭"
 ];
 
-/* Safe Random Position */
-function randomPosition(element) {
-    const maxX = window.innerWidth - element.offsetWidth;
-    const maxY = window.innerHeight - element.offsetHeight;
+/* Random position for NO button */
+function moveButton(btn) {
+    const maxX = window.innerWidth - btn.offsetWidth;
+    const maxY = window.innerHeight - btn.offsetHeight;
 
-    element.style.left = Math.random() * maxX + "px";
-    element.style.top = Math.random() * maxY + "px";
+    btn.style.left = Math.random() * maxX + "px";
+    btn.style.top = Math.random() * maxY + "px";
 }
 
-/* Reject Button Escape */
-randomPosition(rejectBtn);
+moveButton(rejectBtn);
 
-rejectBtn.addEventListener("mouseover", () => randomPosition(rejectBtn));
-rejectBtn.addEventListener("touchstart", () => randomPosition(rejectBtn));
+rejectBtn.addEventListener("mouseover", () => moveButton(rejectBtn));
+rejectBtn.addEventListener("touchstart", () => moveButton(rejectBtn));
 
-/* Floating Hearts */
+/* Floating hearts */
 function createHeart() {
     const heart = document.createElement("div");
     heart.className = "heart";
@@ -156,59 +166,43 @@ function createHeart() {
 }
 
 /* Confetti */
-function confettiExplosion() {
-    for(let i=0;i<100;i++){
-        const confetti = document.createElement("div");
-        confetti.innerText = "💖";
-        confetti.style.position="fixed";
-        confetti.style.left=Math.random()*100+"vw";
-        confetti.style.top=Math.random()*100+"vh";
-        confetti.style.fontSize="20px";
+function confetti() {
+    for (let i = 0; i < 80; i++) {
+        const c = document.createElement("div");
+        c.innerText = "💖";
+        c.style.position = "fixed";
+        c.style.left = Math.random() * 100 + "vw";
+        c.style.top = Math.random() * 100 + "vh";
+        c.style.fontSize = "20px";
 
-        document.body.appendChild(confetti);
-        setTimeout(()=>confetti.remove(),2000);
+        document.body.appendChild(c);
+        setTimeout(() => c.remove(), 2000);
     }
 }
 
-/* YES Click Logic */
+/* YES click logic */
 acceptBtn.addEventListener("click", () => {
-
     music.play();
     yesClicks++;
 
-    if (yesClicks <= 25) {
-        acceptBtn.innerText = annoyingMessages[yesClicks - 1];
+    if (yesClicks <= 5) {
+        acceptBtn.innerText = messages[yesClicks - 1];
     }
 
-    if (yesClicks === 26) {
+    if (yesClicks === 5) {
+
+        document.body.classList.add("second-page");
+
         document.querySelector("h1").innerText = "She Said YES ❤️";
-        document.querySelector("p").style.display = "none";
+        question.style.display = "none";
         acceptBtn.style.display = "none";
         rejectBtn.style.display = "none";
 
         showreel.style.display = "block";
+        showreel.scrollIntoView({ behavior: "smooth" });
 
-        confettiExplosion();
+        confetti();
         setInterval(createHeart, 300);
-    }
-});
-
-/* YES Button Chase (Mobile + Desktop) */
-function moveAccept(x, y) {
-    acceptBtn.style.position = "fixed";
-    acceptBtn.style.left = x + "px";
-    acceptBtn.style.top = y + "px";
-}
-
-document.addEventListener("mousemove", (e) => {
-    if(yesClicks >= 5 && yesClicks <= 15){
-        moveAccept(e.clientX, e.clientY);
-    }
-});
-
-document.addEventListener("touchmove", (e) => {
-    if(yesClicks >= 5 && yesClicks <= 15){
-        moveAccept(e.touches[0].clientX, e.touches[0].clientY);
     }
 });
 </script>
